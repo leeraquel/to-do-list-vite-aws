@@ -24,10 +24,10 @@ jobs:
       env:
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
 
-    - name: Deploy to S3
-      uses: jakejarvis/s3-sync-action@v0.5.1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        args: --acl public-read --delete
+        aws-region: "ap-northeast-2"
       env:
         SOURCE_DIR: 'dist'
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
