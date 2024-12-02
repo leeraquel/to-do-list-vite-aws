@@ -9,6 +9,7 @@ function App() {
     <>
       <h1>Hello It's Lee Raquel'sWorld</h1>
       <img src={dog} alt="cute dog" />
+      <br/>
       <button onClick={() => setCount(count + 1)}>+1</button>
       <button onClick={() => setCount(count - 1)}>-1</button>
       <button onClick={() => setCount(0)}>Reset</button>
