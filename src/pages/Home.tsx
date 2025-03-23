@@ -6,7 +6,7 @@ function Home() {
 
   return (
     <>
-      <h1>Mala Project test</h1>
+      <h1 style={{ color: 'blue' }}>Mara Project test with cimaron</h1>
       <img src={dog} alt="cute dog" />
       <br/>
       <button onClick={() => setCount(count + 1)}>+1</button>
