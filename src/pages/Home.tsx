@@ -13,7 +13,7 @@ function Home() {
       <button onClick={() => setCount(count - 1)}>-1</button>
       <button onClick={() => setCount(0)}>Reset</button>
       <p>Count: {count}</p>
-      <h4>어서오십시오. 첫 AWS 웹 서버 호스팅 완료!</h4>
+      <h4>어서오십시오. 첫 AWS 웹 서버 호스팅 완료! with cimaron!</h4>
     </>
   )
 }
