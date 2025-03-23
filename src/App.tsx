@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import TodoList from './pages/TodoList';
 import PostIt from './pages/PostIt';
+import UpdateNotification from './components/UpdateNotification';
 import './App.css';
 
 const App: React.FC = () => {
@@ -26,6 +27,7 @@ const App: React.FC = () => {
                 <Route path="/todos" element={<TodoList />} />
                 <Route path="/postit" element={<PostIt />} />
             </Routes>
+            <UpdateNotification />
         </Router>
     );
 }
