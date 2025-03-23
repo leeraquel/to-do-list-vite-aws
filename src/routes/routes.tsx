@@ -1,10 +1,8 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import TodoList from './pages/TodoList';
-import './App.css';
+import Home from '../pages/Home';
+import TodoList from '../pages/TodoList';
 
-const App: React.FC = () => {
+function App() {
     return (
         <Router>
             <nav>
