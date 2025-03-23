@@ -21,11 +21,30 @@ const updateSW = registerSW({
   onNeedRefresh() {
     // 업데이트가 있을 때 alert 창 표시
     console.log('새 버전이 감지됨!')
-    if (window.confirm('새 버전이 있습니다. 지금 업데이트하시겠습니까?')) {
-      // 확인 버튼 클릭 시 업데이트 적용 및 페이지 리로드
-      console.log('업데이트 수락됨, 페이지 새로고침 예정')
-      updateSW(true)
-    }
+    
+    // Windows에서의 호환성을 위해 setTimeout 추가
+    setTimeout(() => {
+      if (window.confirm('새 버전이 있습니다. 지금 업데이트하시겠습니까?')) {
+        try {
+          // 확인 버튼 클릭 시 업데이트 적용 및 페이지 리로드
+          console.log('업데이트 수락됨, 페이지 새로고침 예정')
+          
+          // Windows에서의 추가 처리
+          // 1. 먼저 Service Worker 업데이트
+          updateSW(true)
+          
+          // 2. 강제 새로고침 추가 (일부 경우에 필요)
+          setTimeout(() => {
+            console.log('강제 새로고침 실행')
+            window.location.reload()
+          }, 500)
+        } catch (err) {
+          console.error('업데이트 적용 중 오류:', err)
+          // 오류 발생 시 강제 새로고침
+          window.location.reload()
+        }
+      }
+    }, 100)
   },
   onOfflineReady() {
     // 오프라인 준비 완료 시 처리
