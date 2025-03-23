@@ -8,14 +8,38 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
-      devOptions: {
-        enabled: true // 개발 환경에서도 활성화
-      },
+      injectRegister: 'auto',
       workbox: {
         clientsClaim: true,
-        skipWaiting: false,
+        skipWaiting: true, // Windows 호환성을 위해 true로 유지
         cleanupOutdatedCaches: true,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif}'],
+        // 업데이트 확인 주기 설정
+        navigationPreload: true,
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:js|css)$/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'assets-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 // 캐시 유효 기간 1분으로 설정 (테스트용)
+              }
+            }
+          },
+          {
+            urlPattern: ({ url }) => String(url).includes('/'),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pages-cache',
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 60 // 캐시 유효 기간 1분으로 설정 (테스트용)
+              }
+            }
+          }
+        ]
       },
       manifest: {
         name: 'Mala 앱',
