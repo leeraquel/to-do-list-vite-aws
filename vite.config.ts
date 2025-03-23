@@ -11,7 +11,7 @@ export default defineConfig({
       injectRegister: 'auto',
       workbox: {
         clientsClaim: true,
-        skipWaiting: true, // Windows 호환성을 위해 true로 유지
+        skipWaiting: true,
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif}'],
         // 업데이트 확인 주기 설정
@@ -23,8 +23,8 @@ export default defineConfig({
             options: {
               cacheName: 'assets-cache',
               expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 // 캐시 유효 기간 1분으로 설정 (테스트용)
+                maxEntries: 100,
+                maxAgeSeconds: 86400 // 캐시 유효 기간 1일로 설정
               }
             }
           },
@@ -34,8 +34,8 @@ export default defineConfig({
             options: {
               cacheName: 'pages-cache',
               expiration: {
-                maxEntries: 20,
-                maxAgeSeconds: 60 // 캐시 유효 기간 1분으로 설정 (테스트용)
+                maxEntries: 50,
+                maxAgeSeconds: 86400 // 캐시 유효 기간 1일로 설정
               }
             }
           }
