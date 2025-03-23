@@ -1,32 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useRegisterSW } from 'virtual:pwa-register/react';
 
 const UpdateNotification: React.FC = () => {
-  const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
-  
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then(registration => {
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          
-          newWorker?.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              setShowUpdatePrompt(true);
-            }
-          });
-        });
-      });
-    }
-  }, []);
+  const {
+    needRefresh: [needRefresh, setNeedRefresh],
+    updateServiceWorker,
+  } = useRegisterSW();
   
   const handleUpdate = () => {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
-    });
-    window.location.reload();
+    updateServiceWorker(true);
   };
   
-  if (!showUpdatePrompt) return null;
+  if (!needRefresh) return null;
   
   return (
     <div style={{
