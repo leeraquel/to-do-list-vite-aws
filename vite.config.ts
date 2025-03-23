@@ -8,9 +8,14 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
+      devOptions: {
+        enabled: true // 개발 환경에서도 활성화
+      },
       workbox: {
         clientsClaim: true,
-        skipWaiting: false
+        skipWaiting: false,
+        cleanupOutdatedCaches: true,
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif}']
       },
       manifest: {
         name: 'Mala 앱',

@@ -4,17 +4,31 @@ import './index.css'
 import App from './App.tsx'
 import { registerSW } from 'virtual:pwa-register'
 
+// 업데이트 확인 주기를 20초로 설정 (테스트용)
+const intervalMS = 20 * 1000
+
 // Service Worker 등록 및 업데이트 처리
 const updateSW = registerSW({
+  onRegisteredSW(swUrl, r) {
+    console.log(`Service Worker at ${swUrl} registered`)
+    
+    // 주기적으로 업데이트 확인하는 타이머 설정 (20초마다)
+    r && setInterval(() => {
+      console.log('Service Worker 업데이트 확인 중... ' + new Date().toLocaleTimeString())
+      r.update()
+    }, intervalMS)
+  },
   onNeedRefresh() {
     // 업데이트가 있을 때 alert 창 표시
+    console.log('새 버전이 감지됨!')
     if (window.confirm('새 버전이 있습니다. 지금 업데이트하시겠습니까?')) {
       // 확인 버튼 클릭 시 업데이트 적용 및 페이지 리로드
+      console.log('업데이트 수락됨, 페이지 새로고침 예정')
       updateSW(true)
     }
   },
   onOfflineReady() {
-    // 오프라인 준비 완료 시 처리 (선택사항)
+    // 오프라인 준비 완료 시 처리
     console.log('앱이 오프라인에서도 사용할 준비가 되었습니다.')
   },
 })
