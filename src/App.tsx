@@ -13,16 +13,16 @@ const App: React.FC = () => {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/" style={{ color: 'black' }}>Home</Link>
                     </li>
                     <li>
-                        <Link to="/todos">Todo List</Link>
+                        <Link to="/todos" style={{ color: 'black' }}>Todo List</Link>
                     </li>
                     <li>
-                        <Link to="/postit">포스트잇</Link>
+                        <Link to="/postit" style={{ color: 'black' }}>포스트잇</Link>
                     </li>
                     <li>
-                        <Link to="/notepad">메모장</Link>
+                        <Link to="/notepad" style={{ color: 'black' }}>메모장</Link>
                     </li>
                 </ul>
             </nav>
