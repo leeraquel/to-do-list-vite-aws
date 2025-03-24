@@ -4,18 +4,21 @@ import './index.css'
 import App from './App.tsx'
 import { registerSW } from 'virtual:pwa-register'
 
-// 업데이트 확인 주기를 1일로 설정
-const intervalMS = 24 * 60 * 60 * 1000
+// 업데이트 확인 주기를 20초로 설정 (테스트용)
+// const intervalMS = 20 * 1000
 
 // Service Worker 등록 및 업데이트 처리
 const updateSW = registerSW({
   onRegisteredSW(swUrl, r) {
     console.log(`Service Worker at ${swUrl} registered`)
-    
-    // 주기적으로 업데이트 확인하는 타이머 설정 (1일마다)
-    r && setInterval(() => {
-      r.update()
-    }, intervalMS)
+
+    // 주기적으로 업데이트 확인하는 타이머 설정 (20초마다)
+    if (r) {
+      setInterval(() => {
+        console.log('Service Worker 업데이트 확인 중... ' + new Date().toLocaleTimeString())
+        r.update()
+      }, 20000)
+    }
   },
   onNeedRefresh() {
     // 업데이트가 있을 때 alert 창 표시
@@ -30,6 +33,7 @@ const updateSW = registerSW({
             window.location.reload()
           }, 500)
         } catch (err) {
+          console.error('업데이트 적용 중 오류:', err)
           // 오류 발생 시 강제 새로고침
           window.location.reload()
         }
