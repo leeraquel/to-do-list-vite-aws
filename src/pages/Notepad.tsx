@@ -43,7 +43,7 @@ function Notepad() {
         
         const containerRect = containerRef.current.getBoundingClientRect();
         const buttonWidth = 100;
-        const buttonHeight = 40;
+        // const buttonHeight = 40;
         
         const maxLeft = containerRect.width - buttonWidth - 20;
         const maxTop = 300;
