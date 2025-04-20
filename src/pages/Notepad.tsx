@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function Notepad() {
     const [notes, setNotes] = useState<string>('');
     const [savedNotes, setSavedNotes] = useState<string[]>([]);
     const [title, setTitle] = useState<string>('');
+    const [buttonPosition, setButtonPosition] = useState({ top: 0, left: 0 });
+    const [isEscaping, setIsEscaping] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // 로컬 스토리지에서 메모 불러오기
     useEffect(() => {
@@ -22,6 +25,7 @@ function Notepad() {
             localStorage.setItem('notepadData', JSON.stringify(updatedNotes));
             setNotes('');
             setTitle('');
+            setIsEscaping(false);
         }
     };
 
@@ -31,9 +35,40 @@ function Notepad() {
         setSavedNotes(updatedNotes);
         localStorage.setItem('notepadData', JSON.stringify(updatedNotes));
     };
+    
+    const escapeFromMouse = () => {
+        if (!containerRef.current || isEscaping) return;
+        
+        setIsEscaping(true);
+        
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const buttonWidth = 100;
+        const buttonHeight = 40;
+        
+        const maxLeft = containerRect.width - buttonWidth - 20;
+        const maxTop = 300;
+        
+        const randomLeft = Math.floor(Math.random() * maxLeft);
+        const randomTop = Math.floor(Math.random() * maxTop);
+        
+        setButtonPosition({ top: randomTop, left: randomLeft });
+        
+        setTimeout(() => {
+            setIsEscaping(false);
+        }, 300);
+    };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+        <div 
+            ref={containerRef}
+            style={{ 
+                padding: '20px', 
+                maxWidth: '800px', 
+                margin: '0 auto',
+                position: 'relative',
+                minHeight: '600px'
+            }}
+        >
             <h1 style={{ color: '#333', borderBottom: '2px solid #eee', paddingBottom: '10px' }}>메모장</h1>
             
             <div style={{ marginBottom: '20px' }}>
@@ -65,6 +100,7 @@ function Notepad() {
                 />
                 <button 
                     onClick={saveNote}
+                    onMouseEnter={escapeFromMouse}
                     style={{
                         backgroundColor: '#4CAF50',
                         color: 'white',
@@ -72,7 +108,12 @@ function Notepad() {
                         border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer',
-                        marginTop: '10px'
+                        marginTop: '10px',
+                        position: isEscaping ? 'absolute' : 'relative',
+                        top: isEscaping ? buttonPosition.top : 'auto',
+                        left: isEscaping ? buttonPosition.left : 'auto',
+                        transition: 'all 0.2s ease-out',
+                        zIndex: 100
                     }}
                 >
                     저장하기
