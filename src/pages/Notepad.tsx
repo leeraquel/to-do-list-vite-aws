@@ -84,10 +84,9 @@ function Notepad() {
         />
         <Button
           onClick={saveNote}
+          variant="default"
           onMouseEnter={escapeFromMouse}
-          className={`bg-green-500 text-white p-2 mt-2 rounded ${
-            isEscaping ? "absolute" : "relative"
-          }`}
+          className={`bg-green-500 text-white p-2 mt-2 rounded`}
           style={{
             top: isEscaping ? buttonPosition.top : "auto",
             left: isEscaping ? buttonPosition.left : "auto",

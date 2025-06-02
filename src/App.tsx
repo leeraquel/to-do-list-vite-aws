@@ -1,40 +1,35 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import TodoList from './pages/TodoList';
-import PostIt from './pages/PostIt';
-import Notepad from './pages/Notepad';
-import UpdateNotification from './components/UpdateNotification';
-import './App.css';
+// src/App.tsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Navigation } from "./components/Navigation";
+import UpdateNotification from "./components/UpdateNotification";
+import Home from "./pages/Home";
+import TodoList from "./pages/TodoList";
+import PostIt from "./pages/PostIt";
+import Notepad from "./pages/Notepad";
 
 const App: React.FC = () => {
-    return (
-        <Router>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/" style={{ color: 'black' }}>Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/todos" style={{ color: 'black' }}>Todo List</Link>
-                    </li>
-                    <li>
-                        <Link to="/postit" style={{ color: 'black' }}>포스트잇</Link>
-                    </li>
-                    <li>
-                        <Link to="/notepad" style={{ color: 'black' }}>메모장</Link>
-                    </li>
-                </ul>
-            </nav>
+  return (
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+
+        {/* nav 가 fixed 이므로, 위 공간만큼 padding-top을 줍니다 (h-16) */}
+        <div className="pt-16 pb-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/todos" element={<TodoList />} />
-                <Route path="/postit" element={<PostIt />} />
-                <Route path="/notepad" element={<Notepad />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/todos" element={<TodoList />} />
+              <Route path="/postit" element={<PostIt />} />
+              <Route path="/notepad" element={<Notepad />} />
             </Routes>
-            <UpdateNotification />
-        </Router>
-    );
-}
+          </div>
+        </div>
+
+        <UpdateNotification />
+      </div>
+    </Router>
+  );
+};
 
 export default App;
