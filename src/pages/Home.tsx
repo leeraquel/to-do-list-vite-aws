@@ -1,89 +1,87 @@
-import { useState, useEffect } from 'react'
-import dog from '../assets/cuteDog.jpeg'
+import { useState, useEffect } from "react";
+import dog from "../assets/cuteDog.jpeg";
+import { Slider } from "../components/ui/slider";
+import { Button } from "../components/ui/button";
 
 function Home() {
-  const [count, setCount] = useState(0)
-  const [imageSize, setImageSize] = useState(100) 
-  const [displaySize, setDisplaySize] = useState(100)
-  const [sliderValue, setSliderValue] = useState(100)
-  
+  const [count, setCount] = useState(0);
+  const [imageSize, setImageSize] = useState(100);
+  const [displaySize, setDisplaySize] = useState(100);
+  const [sliderValue, setSliderValue] = useState(100);
+
   // 슬라이더 값 변경 핸들러
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value)
-    setSliderValue(value)
-    
+    const value = Number(e.target.value);
+    setSliderValue(value);
+
     // 이미지 크기 설정
-    const reversedSize = 210 - value
-    setImageSize(reversedSize)
-    
-    setDisplaySize(value)
-  }
-  
+    const reversedSize = 210 - value;
+    setImageSize(reversedSize);
+
+    setDisplaySize(value);
+  };
+
   // 이미지 크기 변경
   useEffect(() => {
     const randomInterval = setInterval(() => {
       if (Math.random() < 0.1) {
-        const randomSize = Math.floor(Math.random() * 150) + 50
-        setImageSize(randomSize)
+        const randomSize = Math.floor(Math.random() * 150) + 50;
+        setImageSize(randomSize);
       }
-    }, 2000)
-    
-    return () => clearInterval(randomInterval)
-  }, [])
-  
+    }, 2000);
+
+    return () => clearInterval(randomInterval);
+  }, []);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (Math.random() < 0.3) {
-        setImageSize(prev => Math.max(10, Math.min(200, prev + (Math.random() > 0.5 ? 10 : -10))))
+        setImageSize((prev) =>
+          Math.max(10, Math.min(200, prev + (Math.random() > 0.5 ? 10 : -10)))
+        );
       }
-    }, 500)
-    
-    return () => clearTimeout(timeout)
-  }, [sliderValue])
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [sliderValue]);
 
   return (
     <>
-      <h1 style={{ color: 'pink' }}>Mara Project test with cimaron</h1>
-      
-      {/* 이미지 크기 조절 컨트롤 */}
-      <div style={{ marginBottom: '10px' }}>
-        <label htmlFor="image-size">이미지 크기 조절: {displaySize}% {imageSize !== displaySize && "(실제: ???%)"}</label>
-        <input 
+      <h1 className="text-pink-500">Mara Project test with cimaron</h1>
+
+      <div className="mb-4">
+        <label htmlFor="image-size" className="block text-gray-700">
+          이미지 크기 조절: {displaySize}%{" "}
+          {imageSize !== displaySize && "(실제: ???%)"}
+        </label>
+        <Slider
           id="image-size"
-          type="range" 
-          min="10" 
-          max="200" 
-          value={sliderValue} 
+          min={10}
+          max={200}
+          value={[sliderValue]}
           onChange={handleSliderChange}
-          style={{ 
-            width: '300px', 
-            display: 'block', 
-            margin: '10px 0',
-            transform: 'scaleX(-1)'
-          }}
+          className="w-full mt-2"
         />
-        <small style={{ color: 'gray' }}>← 작게 | 크게 →</small>
+        <small className="text-gray-500">← 작게 | 크게 →</small>
       </div>
-      
-      <img 
-        src={dog} 
-        alt="cute dog" 
-        style={{ 
-          width: `${imageSize}%`, 
-          maxWidth: '800px',
-          transition: 'width 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55)',
-          transform: imageSize > 150 ? 'rotate(180deg)' : 'none',
-        }} 
+
+      <img
+        src={dog}
+        alt="cute dog"
+        className={`w-${imageSize} max-w-2xl transition-transform duration-800 ease-in-out transform ${
+          imageSize > 150 ? "rotate-180" : ""
+        }`}
       />
-      
-      <br/>
-      <button onClick={() => setCount(count + 1)}>+1</button>
-      <button onClick={() => setCount(count - 1)}>-1</button>
-      <button onClick={() => setCount(0)}>Reset</button>
+
+      <div className="mt-4">
+        <Button onClick={() => setCount(count + 1)}>+1</Button>
+        <Button onClick={() => setCount(count - 1)}>-1</Button>
+        <Button onClick={() => setCount(0)}>Reset</Button>
+      </div>
       <p>Count: {count}</p>
       <h4>어서오십시오. 첫 AWS 웹 서버 호스팅 완료! with cimaron!</h4>
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;
